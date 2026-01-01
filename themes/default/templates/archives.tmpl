@@ -1,0 +1,28 @@
+{{ define "archives.tmpl" }}
+    {{ template "base_header" . }}
+
+    <section class="c-archives">
+        <h1 class="c-hero__title">归档</h1>
+        <p class="c-hero__subtitle">共 {{ .Total }} 篇文章</p>
+
+        {{ range .Groups }}
+            <div class="c-archives__group">
+                <h2 class="c-archives__year">{{ .Year }}</h2>
+                <ul class="c-archives__list">
+                    {{ range .Posts }}
+                        <li class="c-archives__item">
+                <span class="c-archives__date">
+                    {{ .Date.Format "01-02" }}
+                </span>
+                            <a href="{{ postURL . }}" class="c-archives__link">
+                                {{ .Title }}
+                            </a>
+                        </li>
+                    {{ end }}
+                </ul>
+            </div>
+        {{ end }}
+    </section>
+
+    {{ template "base_footer" . }}
+{{ end }}

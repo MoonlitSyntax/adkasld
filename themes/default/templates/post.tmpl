@@ -1,0 +1,73 @@
+{{ define "post.tmpl" }}
+    {{ template "base_header" . }}
+
+    <div class="c-post">
+        <aside class="c-post__toc">
+            <h2 class="c-post__toc-title">目录</h2>
+            {{ if .TOC }}
+                <ol class="c-post__toc-list" id="toc-list">
+                    {{ range .TOC }}
+                        <li class="c-post__toc-item c-post__toc-item--level-{{ .Level }}">
+                            <a href="#{{ .ID }}">{{ .Text }}</a>
+                        </li>
+                    {{ end }}
+                </ol>
+            {{ else }}
+                <div class="c-post__toc-empty">
+                    <i class="fas fa-info-circle"></i> 本文暂无小节
+                </div>
+            {{ end }}
+        </aside>
+
+        <div class="c-post__main">
+            <header class="c-post__header">
+                <h1 class="c-post__title">
+                    {{ .Meta.Title }}
+                    {{ if .IsDraft }}<span class="c-post__tag c-post__tag--draft">草稿</span>{{ end }}
+                </h1>
+                <div class="c-post__meta">
+                <span class="c-post__meta-create">
+                    <i class="fas fa-calendar-plus"></i> 创建：{{ .Meta.Date.Format "2006-01-02 15:04" }}
+                </span>
+                    <span class="c-post__meta-updated">
+                    <i class="fas fa-calendar-check"></i> 更新：{{ .Meta.Updated.Format "2006-01-02 15:04" }}
+                </span>
+                    {{ if .Meta.Category }}
+                        <span class="c-post__meta-category">
+                    <i class="fas fa-folder-open"></i> 分类：
+                    <a href="/categories/{{ .Meta.Category }}"><strong>{{ .Meta.Category }}</strong></a>
+                </span>
+                    {{ end }}
+                </div>
+                <div class="c-post__tags">
+                    {{ range .Meta.Tags }}
+                        <a href="/tags/{{ . }}" class="c-post__tag">#{{ . }}</a>
+                    {{ end }}
+                </div>
+                <div class="c-post__description">
+                    {{ if .Meta.Description }}{{ .Meta.Description }}{{ else }}暂无描述{{ end }}
+                </div>
+            </header>
+
+            <article class="c-post__content prose">
+                {{ .HTML }}
+            </article>
+
+            {{ if .SeriesName }}
+                <section class="c-post__series">
+                    <h2 class="c-post__series-title">系列：{{ .SeriesName }}</h2>
+                    <ul class="c-post__series-list">
+                        {{ range .SeriesList }}
+                            <li class="c-post__series-item">
+                                <a href="/post/{{ .Slug }}">{{ .Title }}</a>
+                                <span class="c-post__series-date">{{ .Date.Format "2006-01-02" }}</span>
+                            </li>
+                        {{ end }}
+                    </ul>
+                </section>
+            {{ end }}
+        </div>
+    </div>
+
+    {{ template "base_footer" . }}
+{{ end }}

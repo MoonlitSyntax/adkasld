@@ -1,0 +1,191 @@
+{{/*{{ define "page:health" }}*/}}
+{{/*{{ template "base" (merge . (dict "Content" "content:health")) }}*/}}
+{{/*{{ end }}*/}}
+{{/*{{ define "content:health" }}*/}}
+{{/*<style>*/}}
+{{/*    .c-card__stat {*/}}
+{{/*        text-align: center;*/}}
+{{/*        padding: 8px;*/}}
+{{/*        background-color: #f9f9f9;*/}}
+{{/*        border-radius: 6px;*/}}
+{{/*    }*/}}
+{{/*    .c-card__stat-num {*/}}
+{{/*        font-size: 2em;*/}}
+{{/*        font-weight: 700;*/}}
+{{/*        line-height: 1.1;*/}}
+{{/*        color: #111;*/}}
+{{/*    }*/}}
+{{/*    .c-card__stat-label {*/}}
+{{/*        font-size: 0.8em;*/}}
+{{/*        color: #777;*/}}
+{{/*        margin-top: 4px;*/}}
+{{/*    }*/}}
+
+{{/*    .stat-grid {*/}}
+{{/*        display: grid;*/}}
+{{/*        gap: 12px;*/}}
+{{/*    }*/}}
+{{/*    .stat-item {*/}}
+{{/*        display: flex;*/}}
+{{/*        justify-content: space-between;*/}}
+{{/*        align-items: center;*/}}
+{{/*        padding-bottom: 8px;*/}}
+{{/*        border-bottom: 1px solid #eee;*/}}
+{{/*        font-size: 0.9em;*/}}
+{{/*    }*/}}
+{{/*    .stat-label {*/}}
+{{/*        color: #666;*/}}
+{{/*    }*/}}
+{{/*    .stat-value {*/}}
+{{/*        font-weight: 600;*/}}
+{{/*        background-color: #f7f7f7;*/}}
+{{/*        padding: 2px 6px;*/}}
+{{/*        border-radius: 4px;*/}}
+{{/*    }*/}}
+{{/*    .c-card__title .fab,*/}}
+{{/*    .c-card__title .fas {*/}}
+{{/*        margin-right: 8px;*/}}
+{{/*        width: 20px;*/}}
+{{/*        text-align: center;*/}}
+{{/*    }*/}}
+{{/*</style>*/}}
+
+{{/*<section class="c-health">*/}}
+{{/*    <header class="c-hero">*/}}
+{{/*        <h1 class="c-hero__title">运行状态</h1>*/}}
+{{/*        <div class="c-hero__subtitle">*/}}
+{{/*            Status: <strong>{{ .Status }}</strong> · Uptime: <span id="uptime">{{ .Uptime }}</span>*/}}
+{{/*        </div>*/}}
+{{/*    </header>*/}}
+
+{{/*    <div class="c-grid" style="gap:16px;">*/}}
+
+{{/*        <article class="c-card" style="grid-column: 1 / -1;"> <div class="c-card__body">*/}}
+{{/*            <h2 class="c-card__title"><i class="fas fa-gauge"></i>总览</h2>*/}}
+{{/*            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px;">*/}}
+{{/*                <div class="c-card__stat"><div class="c-card__stat-num" id="cpu_recent">{{ .CPUPercentRecent }}</div><div class="c-card__stat-label">CPU（最近 {{ .RecentWindow }}）</div></div>*/}}
+{{/*                <div class="c-card__stat"><div class="c-card__stat-num" id="goroutines">{{ .Goroutines }}</div><div class="c-card__stat-label">Goroutines</div></div>*/}}
+{{/*                <div class="c-card__stat"><div class="c-card__stat-num" id="alloc">{{ .Alloc }}</div><div class="c-card__stat-label">Alloc</div></div>*/}}
+{{/*                <div class="c-card__stat"><div class="c-card__stat-num" id="inflight">{{ .Inflight }}</div><div class="c-card__stat-label">Inflight</div></div>*/}}
+{{/*            </div>*/}}
+{{/*        </div>*/}}
+{{/*        </article>*/}}
+
+{{/*        <article class="c-card">*/}}
+{{/*            <div class="c-card__body">*/}}
+{{/*                <h2 class="c-card__title"><i class="fab fa-golang"></i>Go 运行时</h2>*/}}
+{{/*                <div class="stat-grid" style="margin-top:8px;">*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">Go Version</span><span class="stat-value">{{ .GoVersion }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">OS/Arch</span><span class="stat-value">{{ .GOOS }}/{{ .GOARCH }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">CPU Cores</span><span class="stat-value">{{ .NumCPU }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">GOMAXPROCS</span><span class="stat-value">{{ .GOMAXPROCS }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">Goroutines</span><span class="stat-value" id="goroutines_rt">{{ .Goroutines }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">CGO Calls</span><span class="stat-value" id="cgo">{{ .Cgo }}</span></div>*/}}
+{{/*                </div>*/}}
+{{/*            </div>*/}}
+{{/*        </article>*/}}
+
+{{/*        <article class="c-card">*/}}
+{{/*            <div class="c-card__body">*/}}
+{{/*                <h2 class="c-card__title"><i class="fas fa-network-wired"></i>请求</h2>*/}}
+{{/*                <div class="stat-grid" style="margin-top:8px;">*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">Inflight</span><span class="stat-value" id="inflight_rt">{{ .Inflight }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">Total</span><span class="stat-value" id="total">{{ .Total }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">2xx</span><span class="stat-value" id="s2xx">{{ .S2xx }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">3xx</span><span class="stat-value" id="s3xx">{{ .S3xx }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">4xx</span><span class="stat-value" id="s4xx">{{ .S4xx }}</span></div>*/}}
+{{/*                    <div class="stat-item"><span class="stat-label">5xx</span><span class="stat-value" id="s5xx">{{ .S5xx }}</span></div>*/}}
+{{/*                </div>*/}}
+{{/*            </div>*/}}
+{{/*        </article>*/}}
+
+{{/*        <article class="c-card" style="grid-column: 1 / -1;"> <div class="c-card__body">*/}}
+{{/*            <h2 class="c-card__title"><i class="fas fa-memory"></i>内存 / GC</h2>*/}}
+{{/*            <div class="stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:8px;">*/}}
+{{/*                <div class="stat-item"><span class="stat-label">Alloc</span><span class="stat-value" id="alloc_detail">{{ .Alloc }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapAlloc</span><span class="stat-value" id="heap_alloc">{{ .HeapAlloc }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapSys</span><span class="stat-value" id="heap_sys">{{ .HeapSys }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapInuse</span><span class="stat-value" id="heap_inuse">{{ .HeapInuse }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapIdle</span><span class="stat-value" id="heap_idle">{{ .HeapIdle }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapReleased</span><span class="stat-value" id="heap_released">{{ .HeapReleased }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">HeapObjects</span><span class="stat-value" id="heap_objects">{{ .HeapObjects }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">StackInuse</span><span class="stat-value" id="stack_inuse">{{ .StackInuse }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">StackSys</span><span class="stat-value" id="stack_sys">{{ .StackSys }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">NextGC</span><span class="stat-value" id="next_gc">{{ .NextGC }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">LastGC</span><span class="stat-value" id="last_gc">{{ .LastGC }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">NumGC</span><span class="stat-value" id="num_gc">{{ .NumGC }}</span></div>*/}}
+{{/*                <div class="stat-item"><span class="stat-label">PauseTotal</span><span class="stat-value" id="pause_total">{{ .PauseTotal }}</span></div>*/}}
+{{/*                {{ if .LastPauses }}<div class="stat-item" style="grid-column:1/-1;"><span class="stat-label">Last Pauses</span><span class="stat-value" id="last_pauses">{{ .LastPauses }}</span></div>{{ end }}*/}}
+{{/*            </div>*/}}
+{{/*        </div>*/}}
+{{/*        </article>*/}}
+{{/*    </div>*/}}
+
+{{/*    <footer class="c-footer" style="margin-top:16px;">*/}}
+{{/*    <span class="c-footer__quote">*/}}
+{{/*      实时刷新：<code id="sse_url">{{ .SSEURL }}</code>*/}}
+{{/*      {{ if .PprofEnabled }} · <a href="/debug/pprof/" class="c-article__tag">pprof</a>{{ end }}*/}}
+{{/*    </span>*/}}
+{{/*    </footer>*/}}
+{{/*</section>*/}}
+
+{{/*<script>*/}}
+{{/*    (function(){*/}}
+{{/*        const es = new EventSource(document.getElementById("sse_url").textContent);*/}}
+{{/*        es.addEventListener("metrics", (e) => {*/}}
+{{/*            const m = JSON.parse(e.data);*/}}
+
+{{/*            setText("uptime", m.uptime_sec + "s");*/}}
+{{/*            setText("cpu_recent", fmtPct(m.cpu_recent_pct));*/}}
+{{/*            setText("goroutines", m.goroutines);*/}}
+{{/*            setText("alloc", humanBytes(m.alloc));*/}}
+{{/*            setText("inflight", m.inflight);*/}}
+
+{{/*            // 进程/Go/请求*/}}
+{{/*            setText("goroutines_rt", m.goroutines);*/}}
+{{/*            setText("inflight_rt", m.inflight);*/}}
+{{/*            setText("total", m.total);*/}}
+{{/*            setText("s2xx", m["2xx"]); setText("s3xx", m["3xx"]);*/}}
+{{/*            setText("s4xx", m["4xx"]); setText("s5xx", m["5xx"]);*/}}
+{{/*            setText("bytes_written", m.bytes_written);*/}}
+
+{{/*            // CPU*/}}
+{{/*            setText("cpu_secs", m.cpu_secs.toFixed(3));*/}}
+{{/*            setText("cpu_total", m.cpu_total_pct.toFixed(1));*/}}
+{{/*            setText("cpu_recent_detail", fmtPct(m.cpu_recent_pct));*/}}
+
+{{/*            // 内存/GC*/}}
+{{/*            setText("alloc_detail", humanBytes(m.alloc));*/}}
+{{/*            setText("heap_alloc", humanBytes(m.heap_alloc));*/}}
+{{/*            setText("heap_sys", humanBytes(m.heap_sys));*/}}
+{{/*            setText("heap_inuse", humanBytes(m.heap_inuse));*/}}
+{{/*            setText("heap_idle", humanBytes(m.heap_idle));*/}}
+{{/*            setText("heap_released", humanBytes(m.heap_released));*/}}
+{{/*            setText("heap_objects", m.heap_objects);*/}}
+{{/*            setText("stack_inuse", humanBytes(m.stack_inuse));*/}}
+{{/*            setText("stack_sys", humanBytes(m.stack_sys));*/}}
+{{/*            setText("next_gc", humanBytes(m.next_gc));*/}}
+{{/*            setText("last_gc", (m.last_gc_unix>0 ? new Date(m.last_gc_unix*1000).toISOString() : "-"));*/}}
+{{/*            setText("num_gc", m.num_gc);*/}}
+{{/*            setText("pause_total", humanNs(m.pause_total_ns));*/}}
+{{/*        });*/}}
+
+{{/*        function setText(id, val){ const el = document.getElementById(id); if (el) el.textContent = val; }*/}}
+{{/*        function fmtPct(x){ return isFinite(x) ? x.toFixed(1)+"%" : "-"; }*/}}
+{{/*        function humanBytes(x){*/}}
+{{/*            const KB=1024, MB=KB*1024, GB=MB*1024;*/}}
+{{/*            if (x>=GB) return (x/GB).toFixed(2)+" GiB";*/}}
+{{/*            if (x>=MB) return (x/MB).toFixed(2)+" MiB";*/}}
+{{/*            if (x>=KB) return (x/KB).toFixed(2)+" KiB";*/}}
+{{/*            return x+" B";*/}}
+{{/*        }*/}}
+{{/*        function humanNs(ns){*/}}
+{{/*            if (!ns || ns<=0) return "0s";*/}}
+{{/*            const ms = ns/1e6, s = ns/1e9;*/}}
+{{/*            if (s>=1) return s.toFixed(3)+"s";*/}}
+{{/*            if (ms>=1) return ms.toFixed(3)+"ms";*/}}
+{{/*            return ns+"ns";*/}}
+{{/*        }*/}}
+{{/*    })();*/}}
+{{/*</script>*/}}
+{{/*{{ end }}*/}}

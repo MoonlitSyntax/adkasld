@@ -1,0 +1,13 @@
+{{ define "404.tmpl" }}
+    {{ template "base_header" . }}
+
+    <div class="c-error c-error--404">
+    <img src="/images/528059647@2x.png" alt="ちがう" class="c-error__image" />
+    <p class="c-error__message">什么都没有喵</p>
+    <a href="/" class="c-error__button">回到首页</a>
+    {{ if .Path }}
+    <p class="c-error__hint">你访问的是：<code>{{ .Path }}</code></p>
+    {{ end }}
+</div>
+    {{ template "base_footer" . }}
+{{ end }}

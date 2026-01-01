@@ -1,0 +1,89 @@
+{{ define "home.tmpl" }}
+    {{ template "base_header" . }}
+
+    <header class="c-hero">
+        <h1 class="c-hero__title">{{ .Site.Title }}</h1>
+        {{ if .Site.Subtitle }}
+            <div class="c-hero__subtitle">— {{ .Site.Subtitle }}</div>
+        {{ end }}
+    </header>
+
+    <section class="c-article-list" id="articles">
+        {{ range .Items }}
+            {{ if eq .Kind "post" }}
+                {{ with .Post }}
+                    {{ $m := .Meta }}  {{/* 现在 $m 是 ArticleMeta */}}
+                    <article class="c-article">
+                        {{ if $m.Cover }}
+                            <img src="{{ $m.Cover }}" alt="{{ $m.Title }}" class="c-article__cover">
+                        {{ end }}
+
+                        <div class="c-article__body">
+                            <div class="c-article__meta">
+                                {{ if $m.Category }}
+                                    <a href="/categories/{{ $m.Category }}" class="c-article__category">{{ $m.Category }}</a>
+                                {{ end }}
+                                {{ if gt $m.Sticky 0 }}
+                                    <i class="fas fa-thumbtack c-article__sticky" aria-label="置顶"></i>
+                                {{ end }}
+                            </div>
+
+                            <div class="c-article__timestamps">
+                        <span class="c-article__timestamp">
+                            <i class="fas fa-calendar-plus"></i>
+                            创建：{{ $m.Date.Format "2006-01-02" }}
+                        </span>
+                                <span class="c-article__timestamp">
+                            <i class="fas fa-edit"></i>
+                            更新：{{ $m.Updated.Format "2006-01-02" }}
+                        </span>
+                            </div>
+
+                            <h2 class="c-article__title">{{ $m.Title }}</h2>
+                            <p class="c-article__description">{{ $m.Description }}</p>
+
+                            <div class="c-article__tags">
+                                {{ range $m.Tags }}
+                                    <a href="/tags/{{ . }}" class="c-article__tag">#{{ . }}</a>
+                                {{ end }}
+                            </div>
+                        </div>
+
+                        <a href="{{ postURL $m }}" aria-label="查看《{{ $m.Title }}》" class="c-article__link"></a>
+                    </article>
+                {{ end }}
+
+            {{ else if eq .Kind "series" }}
+                {{ with .Series }}
+                    <article class="c-article c-article--series">
+                        <div class="c-article__body">
+                            <div class="c-article__meta">
+                                <span class="c-article__category">系列</span>
+                                {{ if gt .MaxSticky 0 }}
+                                    <i class="fas fa-thumbtack c-article__sticky" aria-label="置顶"></i>
+                                {{ end }}
+                            </div>
+
+                            <h2 class="c-article__title">{{ .Name }}（共 {{ .Count }} 篇）</h2>
+                            <p class="c-article__description">
+                                最近更新：{{ .LatestUpdated.Format "2006-01-02" }}
+                            </p>
+
+                            <div class="c-article__tags">
+                                <a href="/series/{{ .Name }}" class="c-article__tag">查看系列</a>
+                            </div>
+                        </div>
+
+                        {{ if .RepresentativePost.Slug }}
+                            <a href="/post/{{ .RepresentativePost.Slug }}" class="c-article__link" aria-label="查看系列 {{ .Name }}"></a>
+                        {{ else }}
+                            <a href="/series/{{ .Name }}" class="c-article__link" aria-label="查看系列 {{ .Name }}"></a>
+                        {{ end }}
+                    </article>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    </section>
+
+    {{ template "base_footer" . }}
+{{ end }}

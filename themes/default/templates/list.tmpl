@@ -1,0 +1,52 @@
+{{ define "list.tmpl" }}
+    {{ template "base_header" . }}
+
+    <section class="c-hero">
+        <h1 class="c-hero__title">
+            {{ if .Title }}{{ .Title }}{{ else }}列表{{ end }}
+        </h1>
+        {{ if .SubTitle }}
+            <div class="c-hero__subtitle">{{ .SubTitle }}</div>
+        {{ end }}
+    </section>
+
+    <section class="c-article-list">
+        {{ range .Items }}
+            <article class="c-article">
+                {{ with .Cover }}
+                    <img src="{{ . }}" alt="{{ $.Title }}" class="c-article__cover">
+                {{ end }}
+
+                <div class="c-article__body">
+                    <div class="c-article__meta">
+                        {{ if .Category }}
+                            <a href="/categories/{{ .Category }}" class="c-article__category">{{ .Category }}</a>
+                        {{ end }}
+                        {{ if gt .Sticky 0 }}
+                            <i class="fas fa-thumbtack c-article__sticky"></i>
+                        {{ end }}
+                    </div>
+
+                    <div class="c-article__timestamps">
+                        <span class="c-article__timestamp">
+                            <i class="fas fa-calendar-plus"></i> {{ .Date.Format "2006-01-02" }}
+                        </span>
+                    </div>
+
+                    <h2 class="c-article__title">{{ .Title }}</h2>
+                    <p class="c-article__description">{{ .Description }}</p>
+
+                    <div class="c-article__tags">
+                        {{ range .Tags }}
+                            <a href="/tags/{{ . }}" class="c-article__tag">#{{ . }}</a>
+                        {{ end }}
+                    </div>
+                </div>
+
+                <a href="{{ postURL . }}" class="c-article__link" aria-label="查看《{{ .Title }}》"></a>
+            </article>
+        {{ end }}
+    </section>
+
+    {{ template "base_footer" . }}
+{{ end }}

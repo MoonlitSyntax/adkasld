@@ -1,0 +1,20 @@
+{{ define "categories-all.tmpl" }}
+{{ template "base_header" . }}
+    <section class="c-categories-overview">
+        <h1 class="c-hero__title">分类</h1>
+        <p class="c-hero__subtitle">共 {{ .Total }} 个分类</p>
+
+        <ul class="c-categories-overview__list">
+            {{ range .Categories }}
+                <li class="c-categories-overview__item">
+                    <a href="/categories/{{ .Name }}" class="c-categories-overview__link">
+                        {{ .Name }}
+                        <span class="c-categories-overview__count">{{ .Count }}</span>
+                    </a>
+                </li>
+            {{ end }}
+        </ul>
+    </section>
+
+{{ template "base_footer" . }}
+{{ end }}

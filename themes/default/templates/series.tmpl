@@ -1,0 +1,37 @@
+{{ define "series.tmpl" }}
+    {{ template "base_header" . }}
+<section class="c-category">
+    <h1 class="c-category__title">系列：{{ .Name }}</h1>
+    <p class="c-category__desc">
+        共 {{ .Count }} 篇 · 最近更新 {{ .Latest.Format "2006-01-02" }}
+    </p>
+
+    <div class="c-article-list">
+        {{ range .Items }}
+        <article class="c-article">
+            <div class="c-article__body">
+                <div class="c-article__meta">
+                    {{ if .Category }}
+                    <a href="/categories/{{ .Category }}" class="c-article__category">{{ .Category }}</a>
+                    {{ end }}
+                </div>
+
+                <div class="c-article__timestamps">
+                    <span class="c-article__timestamp">
+                        <i class="fas fa-calendar-plus"></i> 创建：{{ .Date.Format "2006-01-02" }}
+                    </span>
+                    <span class="c-article__timestamp">
+                        <i class="fas fa-edit"></i> 更新：{{ .Updated.Format "2006-01-02" }}
+                    </span>
+                </div>
+
+                <h2 class="c-article__title">{{ .Title }}</h2>
+                <p class="c-article__description">{{ .Description }}</p>
+            </div>
+            <a href="{{ postURL . }}" class="c-article__link"></a>
+        </article>
+        {{ end }}
+    </div>
+</section>
+{{ template "base_footer" . }}
+{{ end }}

@@ -1,0 +1,21 @@
+{{ define "tags-all.tmpl" }}
+    {{ template "base_header" . }}
+
+    <section class="c-tags-overview">
+        <h1 class="c-hero__title">标签</h1>
+        <p class="c-hero__subtitle">共 {{ .Total }} 个标签</p>
+
+        <ul class="c-tags-overview__list">
+            {{ range .Tags }}
+                <li class="c-tags-overview__item">
+                    <a href="/tags/{{ .Name }}" class="c-tags-overview__link">
+                        #{{ .Name }}
+                        <span class="c-tags-overview__count">{{ .Count }}</span>
+                    </a>
+                </li>
+            {{ end }}
+        </ul>
+    </section>
+
+    {{ template "base_footer" . }}
+{{ end }}
