@@ -22,9 +22,9 @@ type PostPage struct {
 	SeriesName string
 	SeriesList []content.ArticleMeta
 
-	Related   []content.ArticleMeta
-	IsDraft   bool
-	PageTitle string
+	Related []content.ArticleMeta
+	IsDraft bool
+	Title   string
 }
 
 type ListPage struct {
@@ -47,6 +47,7 @@ type SeriesPage struct {
 	Items  []content.ArticleMeta
 	Count  int
 	Latest time.Time
+	Title  string
 }
 
 type HomeItemKind string
@@ -80,7 +81,7 @@ type HomePage struct {
 	Page      int
 	PageSize  int
 	Generated time.Time
-	PageTitle string
+	Title     string
 }
 
 type NotFoundPage struct {
@@ -98,6 +99,7 @@ type ArchivesPage struct {
 	Site   config.SiteConfig
 	Groups []ArchivesGroup
 	Total  int
+	Title  string
 }
 
 type TagStat struct {
@@ -109,6 +111,7 @@ type TagsPage struct {
 	Site  config.SiteConfig
 	Tags  []TagStat
 	Total int
+	Title string
 }
 
 type CategoryStat struct {
@@ -120,4 +123,5 @@ type CategoriesPage struct {
 	Site       config.SiteConfig
 	Categories []CategoryStat
 	Total      int
+	Title      string
 }

@@ -322,7 +322,7 @@ func (s *Server) handleHome(w http.ResponseWriter, r *http.Request) {
 		Page:      1,
 		PageSize:  opt.Size,
 		Generated: time.Now(),
-		PageTitle: "Home",
+		Title:     "Home",
 	}
 	htmlBytes, err := s.tpl.RenderHome(r.Context(), page)
 	if err != nil {
@@ -393,7 +393,7 @@ func (s *Server) handlePost(w http.ResponseWriter, r *http.Request) {
 		IsDraft:    meta.Draft,
 		SeriesName: meta.Series.Name,
 		SeriesList: seriesList,
-		PageTitle:  meta.Title,
+		Title:      meta.Title,
 	}
 
 	htmlBytes, err := s.tpl.RenderPost(r.Context(), pp)
@@ -592,6 +592,7 @@ func (s *Server) handleArchives(w http.ResponseWriter, r *http.Request) {
 		Site:   s.cfg.Site,
 		Groups: groups,
 		Total:  total,
+		Title:  "Archives",
 	}
 
 	htmlBytes, err := s.tpl.RenderArchives(r.Context(), page)
@@ -650,6 +651,7 @@ func (s *Server) handleTagsRoot(w http.ResponseWriter, r *http.Request) {
 		Site:  s.cfg.Site,
 		Tags:  stats,
 		Total: len(stats),
+		Title: "All Tags",
 	}
 	htmlBytes, err := s.tpl.RenderTagsPage(r.Context(), page)
 	if err != nil {
@@ -705,6 +707,7 @@ func (s *Server) handleCategoriesRoot(w http.ResponseWriter, r *http.Request) {
 		Site:       s.cfg.Site,
 		Categories: stats,
 		Total:      len(stats),
+		Title:      "All Categories",
 	}
 	htmlBytes, err := s.tpl.RenderCategoriesPage(r.Context(), page)
 	if err != nil {
@@ -756,7 +759,7 @@ func (s *Server) handleStaticSlug(slug string) http.HandlerFunc {
 			TOC:        mdResult.Headings,
 			IsDraft:    meta.Draft,
 			SeriesName: meta.Series.Name,
-			PageTitle:  meta.Title,
+			Title:      meta.Title,
 		}
 
 		htmlBytes, err := s.tpl.RenderPost(r.Context(), pp)

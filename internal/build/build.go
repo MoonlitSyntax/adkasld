@@ -171,7 +171,7 @@ func (b *Builder) buildHome(
 		Page:      1,
 		PageSize:  opt.Size,
 		Generated: b.Cfg.Build.Now,
-		PageTitle: "Home",
+		Title:     "Home",
 	}
 	htmlBytes, err := tpl.RenderHome(ctx, page)
 	if err != nil {
@@ -232,12 +232,12 @@ func (b *Builder) buildPosts(
 		}
 
 		pp := render.PostPage{
-			Site:      b.Cfg.Site,
-			Meta:      meta,
-			HTML:      template.HTML(mdResult.HTML),
-			TOC:       mdResult.Headings,
-			IsDraft:   meta.Draft,
-			PageTitle: meta.Title,
+			Site:    b.Cfg.Site,
+			Meta:    meta,
+			HTML:    template.HTML(mdResult.HTML),
+			TOC:     mdResult.Headings,
+			IsDraft: meta.Draft,
+			Title:   meta.Title,
 		}
 		pp.SeriesName = meta.Series.Name
 		pp.SeriesList = seriesList
@@ -590,6 +590,7 @@ func (b *Builder) buildTagsOverview(
 		Site:  b.Cfg.Site,
 		Tags:  stats,
 		Total: len(stats),
+		Title: "All Tags",
 	}
 	htmlBytes, err := tpl.RenderTagsPage(ctx, page)
 	if err != nil {
@@ -641,6 +642,7 @@ func (b *Builder) buildCategoriesOverview(
 		Site:       b.Cfg.Site,
 		Categories: stats,
 		Total:      len(stats),
+		Title:      "All Categories",
 	}
 	htmlBytes, err := tpl.RenderCategoriesPage(ctx, page)
 	if err != nil {
